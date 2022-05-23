@@ -1,7 +1,7 @@
 # rsemg
 
 <p align="center">
-    <img style="width: 30%; height: 30%" src="https://github.com/NLeSC/">
+    <img style="width: 30%; height: 30%" src="https://github.com/NLeSC/rsemg/blob/main/rsemg.png">
 </p>
 
 #  rsemg
