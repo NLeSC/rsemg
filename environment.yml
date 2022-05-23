@@ -1,0 +1,18 @@
+#  environment document
+
+name: rsemg-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.6
+  - jupyter=1.0.0
+  - matplotlib=3.3.3
+  - ipympl
+  - ipywidgets=7.7.0
+  - mne=0.21.2
+  - pip=20.2
+
+  - pip:
+    
+ 
+    - tensorflow==2.4.1
