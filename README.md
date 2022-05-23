@@ -1,10 +1,8 @@
 # rsemg
 
 <p align="center">
-    <img style="width: 30%; height: 30%" src="https://github.com/NLeSC/rsemg/blob/main/rsemg.png">
+    <img style="width: 30%; height: 30%" src="https://github.com/NLeSC/rsemg/blob/main/rsemgU.png">
 </p>
-
-#  rsemg
 
 
 This library contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The work of the research group will include interfaces for clinicians as well as researchers.
