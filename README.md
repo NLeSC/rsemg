@@ -27,4 +27,5 @@ Contact Candace Makeda Moore (c.moore@esciencecenter.nl) to discuss any question
 
 How to get the notebooks running? Assuming the raw data set and metadata is available.
 
-1. Install all Python packages required, using conda and the environment.yaml file.
+1. Install all Python packages required, using conda and the environment.yml file.
+1a. The command can be something like: conda env create -f environment.yml

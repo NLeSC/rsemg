@@ -1,6 +1,6 @@
 #  environment document
 
-name: rsemg-env
+name: remgenv-1
 channels:
   - conda-forge
 dependencies:
@@ -9,24 +9,26 @@ dependencies:
   - ipympl
   - ipywidgets=7.7.0
   - jupyter=1.0.0
-  - jupyter-client=7.2.2
-  - jupyter-console=6.4.3
-  - jupyter-core=4.9.2
-  - jupyterlab-pygments=0.2.0
-  - jupyterlab-widgets=1.1.0
+
   - matplotlib=3.3.3
-  - mcfly=3.1.0
-  - mne=0.21.2
+
   - notebook=6.4.10
   - numexpr=2.7.3
   - numpy=1.22.3
 
 
   - pip=20.2
+  - pyxdf
 
 
 
   - pip:
     
  
-    - tensorflow==2.4.1
+    # - tensorflow==2.4.1
+    # - jupyterlab-pygments==0.2.0
+    # - jupyterlab-widgets==1.1.0
+    # - jupyter-core==4.9.2
+    # - jupyter-console==6.4.3
+    - mcfly==3.1.0
+    # - jupyter-client==7.2.2
