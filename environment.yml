@@ -1,6 +1,6 @@
 #  environment document
 
-name: remgenv-1
+name: remgenv-3
 channels:
   - conda-forge
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
   - notebook=6.4.10
   - numexpr=2.7.3
   - numpy=1.22.3
-
+  - pandas
 
   - pip=20.2
   - pyxdf
