@@ -13,21 +13,24 @@ sys.path.insert(0,'C:/Projects/tmsi-python-interface')
 from TMSiSDK.file_readers import Poly5Reader
 
 
-sys.path.insert(0, os.getcwd())
+sys.path.insert(0, 'C:/Projects/rsemg')
 
-from rsemg.converter_functions import poly5unpad
-from rsemg.helper_functions import bad_end_cutter
-from rsemg.helper_functions import bad_end_cutter_for_samples
+from rsemg.rsemg.converter_functions import poly5unpad
+from rsemg.rsemg.helper_functions import bad_end_cutter
+from rsemg.rsemg.helper_functions import bad_end_cutter_for_samples
 # from rsemg.helper_functions import load_metarsemg
 
-sample_emg = os.path.join('../not_pushed','121a'+'.bdf')
+sample_emg = os.path.join('not_pushed','Test_lung_data','2022-05-13_11-51-04','002','EMG_recording'+'.Poly5')
+#C:\Projects\rsemg\not_pushed\Test_lung_data\2022-05-13_11-51-04\002
 
 
 class TestDisplayConverterMethods(unittest.TestCase):
 
     def test_poly5unpad(self):
         reading =Poly5Reader(sample_emg)
-        self.assertEqual(len(poly5unpad(sample_emg)), reading.num_samples)
+        unpadded= poly5unpad(sample_emg)
+        unpadded_line = unpadded[0]
+        self.assertEqual(len(unpadded_line), reading.num_samples)
 
 
 # class TestFilteringMethods(unittest.TestCase):

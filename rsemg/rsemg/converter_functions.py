@@ -1,6 +1,11 @@
 # This file contains functions to work with various EMG file types from various hardware/software combinationation,
 # and convert them down to an array
 
+# IMPORT Ole's fixed TMSiSDK python interfacwe- may change
+import sys
+
+sys.path.insert(0,'C:/Projects/tmsi-python-interface')
+from TMSiSDK.file_readers import Poly5Reader
 
 def poly5unpad(to_be_read):
     """
