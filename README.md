@@ -7,10 +7,14 @@
 
 This library contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The work of the research group will include interfaces for clinicians as well as researchers.
 
-### Notebooks
+### Folders and Notebooks
 
-Initial experiments:
-- Ongoing
+
+researcher_interface:
+- These are a growing series of interactive notebooks that allow researchers to investigate questions about their own EMG data
+
+open_work:
+- This folder contains experimental work by core members of the rsemg team
 
 
 ### Program files
@@ -28,4 +32,7 @@ Contact Candace Makeda Moore (c.moore@esciencecenter.nl) to discuss any question
 How to get the notebooks running? Assuming the raw data set and metadata is available.
 
 1. Install all Python packages required, using conda and the environment.yml file.
-1a. The command can be something like: conda env create -f environment.yml
+1a. The command for Windows/Anaconda users can be something like: conda env create -f environment.yml
+1b. Linux users can create their own environment by hand
+
+2. Open a notebook in researcher_interface and interactively run the cells.
