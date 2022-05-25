@@ -5,7 +5,7 @@
 </p>
 
 
-This library contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The work of the research group will include interfaces for clinicians as well as researchers.
+This library contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The library was begun as the work of a research group at University of Twente headed by Dr. Eline Mos-Oppersma, PhD (UT-TNW). The work of the research group includes interfaces for clinicians as well as other researchers.
 
 ### Folders and Notebooks
 
