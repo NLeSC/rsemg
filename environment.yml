@@ -1,6 +1,6 @@
 #  environment document
 
-name: remgenv-3
+name: remgenv-4
 channels:
   - conda-forge
 dependencies:
@@ -11,7 +11,7 @@ dependencies:
   - jupyter=1.0.0
 
   - matplotlib=3.3.3
-
+  - mne=0.21.2
   - notebook=6.4.10
   - numexpr=2.7.3
   - numpy=1.22.3
