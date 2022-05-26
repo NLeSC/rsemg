@@ -5,18 +5,15 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8.6
-
   - ipympl
   - ipywidgets=7.7.0
   - jupyter=1.0.0
-
   - matplotlib=3.3.3
   - mne=0.21.2
   - notebook=6.4.10
   - numexpr=2.7.3
   - numpy=1.22.3
   - pandas
-
   - pip=20.2
   - pyxdf
 
