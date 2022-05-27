@@ -75,18 +75,18 @@ class TestCuttingingMethods(unittest.TestCase):
         )
 
 
-
+# the below test needs rewriting
 # class TestHashMethods(unittest.TestCase):
 
 #     def test_hash_it_up_right_all(self):
-#         tempfile1 = 'tempfile1.cnt'
-#         tempfile2 = 'tempfile2.cnt'
+#         tempfile1 = sample_emg
+#         tempfile2 = sample_emg
 #         with TemporaryDirectory() as td:
 #             with open(os.path.join(td, tempfile1), 'w') as tf:
 #                 tf.write('string')
 #             with open(os.path.join(td, tempfile2), 'w') as tf:
 #                 tf.write('string')
-#             self.assertTrue(hash_it_up_right_all(td, '.cnt').equals(hash_it_up_right_all(td, '.cnt')))
+#             self.assertTrue(hash_it_up_right_all(td, '.Poly5').equals(hash_it_up_right_all(td, '.Poly5')))
 
 
 
