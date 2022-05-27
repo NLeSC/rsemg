@@ -15,6 +15,16 @@ from math import log, e
 def emg_bandpass_butter(data_emg, low_pass, high_pass):
     """
     The paramemter taken in here is the Poly5 file. Output is the emg after a bandpass as made here.
+    
+    :param data_emg: Poly5 file with the samples to work over
+    :type data_emg: :class:  Poly5
+    :param low_pass: the number to cut off frequenciesabove
+    :type low_pass: :class:  int
+    :param high_pass: the number to cut off frequenceisbelow
+    :type high_pass: :class:  int
+
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, [low_pass, high_pass], 'bandpass', fs=data_emg.sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?
@@ -305,13 +315,36 @@ def compute_power_loss(original_signal, original_signal_sampling_frequency, proc
     return power_loss
 
 def count_decision_array(decision_array):
+    """
+    This is a function that practically speakingcounts events on a time series array that
+    has been reduced down to a binary (0,1) output. It counts changes then divides by two
+    input
+
+    :param decision_array: array.
+    :type decisions_array: :class:`~numpy.ndarray`
+
+    :return: number of events
+    :rtype: :class:float
+    """
     ups_and_downs = np.logical_xor(decision_array[1:], decision_array[:-1])
     count = ups_and_downs.sum()/2
     return count
 
 def smooth_for_baseline(single_filtered_array, start=None, end=None, smooth=100):
     """
-    This is an adaptive smoothing that overvalues closer numbers.
+    This is an adaptive smoothing a series that overvalues closer numbers.
+
+    :param single_filtered_array: array.
+    :type single_filtered_array: :class:`~numpy.ndarray`
+    :param start: the number on samples to work from
+    :type start: :class:int
+    :param end: the number on samples to work until
+    :type end: :class:int
+    :param smooth: the number of samples to work over
+    :type smooth: :class:int
+    
+    :return: array
+    :rtype: :class:`~numpy.ndarray`
     """
     
     array = single_filtered_array[start:end]

@@ -1,8 +1,6 @@
-#tests for the library
+#sanity tests for the rsemg library
 
 
-# from posixpath import splitext
-# from itertools import islice
 import unittest
 import os
 import glob
@@ -48,14 +46,15 @@ class TestDisplayConverterMethods(unittest.TestCase):
         self.assertEqual(len(unpadded_line), reading.num_samples)
 
 
-# class TestFilteringMethods(unittest.TestCase):
+class TestFilteringMethods(unittest.TestCase):
 
-#     def test_band_pass_filter(self):
-#         sample_eeg_filtered = band_pass_filter(sample_eeg_bdf_read, 0, 10)
-#         self.assertEqual(
-#             (sample_eeg_filtered.info['lowpass']),
-#             10,
-#         )
+    def test_emg_band_pass_butter_filter(self):
+        sample_read= Poly5Reader(sample_emg)
+        sample_emg_filtered = emg_bandpass_butter(sample_read, 1, 10)
+        self.assertEqual(
+            (len(sample_emg_filtered[0])),
+            len(sample_read.samples[0]) ,
+        )
 
 
 # class TestHashMethods(unittest.TestCase):
@@ -70,32 +69,7 @@ class TestDisplayConverterMethods(unittest.TestCase):
 #                 tf.write('string')
 #             self.assertTrue(hash_it_up_right_all(td, '.cnt').equals(hash_it_up_right_all(td, '.cnt')))
 
-# class TestLoadMethods(unittest.TestCase):
 
-   
-#     def test_load_metadata(self):
-#         filename = os.path.splitext(sample_metadata)[0]
-#         loaded_metadata = load_metadata(
-#             filename,
-#             sys.path[0],
-#             sys.path[0],
-#             make_excel_files=False,
-#             make_csv_files=False,
-#         )
-#         self.assertEqual(len(loaded_metadata), 143)
-
-#     def test_load_events(self):
-#         loaded_event_markers = load_events(event_marker_folder, sample_eeg_list)
-#         self.assertEqual(len(loaded_event_markers), 1)
-    
-#     def test_call_event_markers(self):
-#         # temporary directory
-#         expected = 10
-#         with TemporaryDirectory() as td:
-#             caller_save_events(td, islice(generator_load_dataset(path_eeg), 10))
-#             actual = sum(1 for txt in glob.glob(os.path.join(td,'*.txt')))
-#         # compare number files generated,to expected which we stop at 10 with 
-#         self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
     unittest.main()
