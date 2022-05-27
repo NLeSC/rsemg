@@ -1,6 +1,6 @@
 #  environment document
 
-name: remgenv-5
+name: remgenv-6
 channels:
   - conda-forge
 dependencies:
@@ -17,7 +17,7 @@ dependencies:
   - pandas
   - pip=20.2
   - pyxdf
-  - sphinx
+  - sphinx=4.5.0
 
 
 

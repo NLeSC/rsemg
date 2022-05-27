@@ -146,7 +146,7 @@ def bad_end_cutter_better(data_emg, percent_to_cut=7, tolerance_percent=10):
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
     but returns only the array not an altered Poly5.
-    
+
     :param data_emg: a poly5
     :type data_emg: :class:  Poly5file
     :param percent_to_cut: percentage to look at on the end
@@ -183,7 +183,12 @@ def bad_end_cutter_better(data_emg, percent_to_cut=7, tolerance_percent=10):
 
 def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
     """
-    Placeholder
+    This is a filter designed to take out a specific frequency. 
+    In the EU in some data electrical cords can interfere at around 50 herts.
+    In some other locations the interference is at 60 Hertz. The specificities 
+    of a local power grid may neccesitate notch filtering. 
+
+    
     """
     # create notch filter
     samp_freq = sample_frequ # Sample frequency (Hz)
