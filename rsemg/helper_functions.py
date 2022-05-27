@@ -139,6 +139,9 @@ def bad_end_cutter_better(data_emg, percent_to_cut=7, tolerance_percent=10):
 
 
 def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
+    """
+    Placeholder
+    """
     # create notch filter
     samp_freq = sample_frequ # Sample frequency (Hz)
     notch_freq = freq_to_pull # Frequency to be removed from signal (Hz)
@@ -155,6 +158,9 @@ def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
 
 
 def show_my_power_spectrum(sample, sample_rate, upper_window):
+    """
+    Placeholder
+    """
     N = len(sample)
     # for our emg samplerate is 2048
 
@@ -177,14 +183,23 @@ def emg_highpass_butter(data_emg, cut_above, sample_rate):
     return emg_filtered
 
 def naive_rolling_rms(x, N):
+    """
+    PLaceholder
+    """
     xc = np.cumsum(abs(x)**2)
     return np.sqrt((xc[N:] - xc[:-N])/N )
 
 def vect_naive_rolling_rms(x, N):
+    """
+    PLaceholder
+    """
     xc = np.cumsum(np.abs(x)**2)
     return np.sqrt((xc[N:] - xc[:-N])/N )
 
 def zero_one_for_jumps_base(array, cut_off):
+    """
+    PLaceholder
+    """
     array_list = []
     for i in array:
         if i < cut_off:
