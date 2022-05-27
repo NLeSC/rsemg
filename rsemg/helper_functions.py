@@ -34,6 +34,20 @@ def emg_bandpass_butter(data_emg, low_pass, high_pass):
 def emg_bandpass_butter_sample(data_emg_samp, low_pass, high_pass, sample_rate, output='sos'):
     """
     The paramemter taken in here is the Poly5 file. Output is the emg after a bandpass as made here.
+
+    :param data_emg_samp: The array in the poly5 or other sample
+    :type data_emg_samp: :class:  array
+    :param low_pass: the number to cut off frequenciesabove
+    :type low_pass: :class:  int
+    :param high_pass: the number to cut off frequenceisbelow
+    :type high_pass: :class:  int
+    :param sample_rate: the number of samples per second i.e. Hertz
+    :type sample_rate: :class:  int
+    :output: the type of sampling stabilizor
+    :type high_pass: :class:  str
+
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, [low_pass, high_pass], 'bandpass', fs = sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?

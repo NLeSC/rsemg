@@ -48,9 +48,16 @@ class TestDisplayConverterMethods(unittest.TestCase):
 
 class TestFilteringMethods(unittest.TestCase):
 
-    def test_emg_band_pass_butter_filter(self):
+    def test_emg_band_pass_butter(self):
         sample_read= Poly5Reader(sample_emg)
         sample_emg_filtered = emg_bandpass_butter(sample_read, 1, 10)
+        self.assertEqual(
+            (len(sample_emg_filtered[0])),
+            len(sample_read.samples[0]) ,
+        )
+    def test_emg_band_pass_butter_sample(self):
+        sample_read= Poly5Reader(sample_emg)
+        sample_emg_filtered = emg_bandpass_butter_sample(sample_read.samples, 1, 10, 2048)
         self.assertEqual(
             (len(sample_emg_filtered[0])),
             len(sample_read.samples[0]) ,
