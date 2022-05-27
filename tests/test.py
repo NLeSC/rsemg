@@ -13,12 +13,14 @@ from TMSiSDK.file_readers import Poly5Reader
 
 sys.path.insert(0, 'C:/Projects/rsemg')
 
+# converter_functions
 from rsemg.converter_functions import poly5unpad
+from rsemg.converter_functions import hash_it_up_right_all
+# helper_functions
 from rsemg.helper_functions import bad_end_cutter
 from rsemg.helper_functions import bad_end_cutter_better
 from rsemg.helper_functions import bad_end_cutter_for_samples
 from rsemg.helper_functions import count_decision_array
-
 from rsemg.helper_functions import emg_bandpass_butter
 from rsemg.helper_functions import emg_bandpass_butter_sample
 from rsemg.helper_functions import notch_filter
@@ -44,6 +46,19 @@ class TestDisplayConverterMethods(unittest.TestCase):
         unpadded= poly5unpad(sample_emg)
         unpadded_line = unpadded[0]
         self.assertEqual(len(unpadded_line), reading.num_samples)
+
+
+class TestHashMethods(unittest.TestCase):
+
+    def test_hash_it_up_right_all(self):
+        tempfile1 = 'sample_emg_t.Poly5'
+        tempfile2 = 'sample_emg_t.Poly5'
+        with TemporaryDirectory() as td:
+            with open(os.path.join(td, tempfile1), 'w') as tf:
+                tf.write('string')
+            with open(os.path.join(td, tempfile2), 'w') as tf:
+                tf.write('string')
+            self.assertTrue(hash_it_up_right_all(td, '.Poly5').equals(hash_it_up_right_all(td, '.Poly5')))
 
 
 class TestFilteringMethods(unittest.TestCase):
@@ -73,21 +88,6 @@ class TestCuttingingMethods(unittest.TestCase):
             (len(sample_emg_cut[0])),
             len(sample_read.samples[0]) ,
         )
-
-
-# the below test needs rewriting
-# class TestHashMethods(unittest.TestCase):
-
-#     def test_hash_it_up_right_all(self):
-#         tempfile1 = sample_emg
-#         tempfile2 = sample_emg
-#         with TemporaryDirectory() as td:
-#             with open(os.path.join(td, tempfile1), 'w') as tf:
-#                 tf.write('string')
-#             with open(os.path.join(td, tempfile2), 'w') as tf:
-#                 tf.write('string')
-#             self.assertTrue(hash_it_up_right_all(td, '.Poly5').equals(hash_it_up_right_all(td, '.Poly5')))
-
 
 
 if __name__ == '__main__':
