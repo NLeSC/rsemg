@@ -64,6 +64,18 @@ class TestFilteringMethods(unittest.TestCase):
         )
 
 
+class TestCuttingingMethods(unittest.TestCase):
+
+    def test_emg_bad_end_cutter(self):
+        sample_read= Poly5Reader(sample_emg)
+        sample_emg_cut = bad_end_cutter(sample_read, 1, 10)
+        self.assertNotEqual(
+            (len(sample_emg_cut[0])),
+            len(sample_read.samples[0]) ,
+        )
+
+
+
 # class TestHashMethods(unittest.TestCase):
 
 #     def test_hash_it_up_right_all(self):

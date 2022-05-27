@@ -58,7 +58,17 @@ def bad_end_cutter(data_emg, percent_to_cut=7, tolerance_percent=10):
     """
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
-    but returns only the array not an altered Poly5.
+    but returns only the array, not an altered Poly5.
+
+    :param data_emg: a poly5
+    :type data_emg: :class:  Poly5file
+    :param percent_to_cut: percentage to look at on the end
+    :type percent_to_cut: :class:  int
+    :param tolerance_percent: percentage variation tolerance to allow without cutting automatically
+    :type tolerance_percent: :class:  int
+
+    :return sample_cut: the cut emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sample = data_emg.samples
     len_sample = len(data_emg.samples[0])
