@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import FastICA
 from scipy.signal import find_peaks
-#from scipy.stats import entropy
 import collections
 import math
 from math import log, e
@@ -106,7 +105,17 @@ def bad_end_cutter_for_samples(data_emg, percent_to_cut=7, tolerance_percent=10)
     """
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
-    but returns only the array not an altered Poly5.
+    but returns only the array .
+
+    :param data_emg: array of samples
+    :type data_emg: :class:   `~numpy.ndarray`
+    :param percent_to_cut: percentage to look at on the end
+    :type percent_to_cut: :class:  int
+    :param tolerance_percent: percentage variation tolerance to allow without cutting automatically
+    :type tolerance_percent: :class:  int
+
+    :return sample_cut: the cut emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sample = data_emg
     len_sample = len(data_emg[0])
@@ -183,11 +192,12 @@ def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
 
 def show_my_power_spectrum(sample, sample_rate, upper_window):
     """
-    Placeholder
+    This function plots a power spectrum
+    of the frequencies comtained in an emg based on
+    a forier transform. It does not return.
     """
     N = len(sample)
-    # for our emg samplerate is 2048
-
+    # for our emgs samplerate is usually 2048
     yf = fft((sample))
     xf = fftfreq(N, 1 / sample_rate)
 
@@ -208,6 +218,9 @@ def emg_highpass_butter(data_emg, cut_above, sample_rate):
 
 def naive_rolling_rms(x, N):
     """
+    This function computes a root mean squared envelope over an array x.
+    To do this it uses number of sample values N .
+
     PLaceholder
     """
     xc = np.cumsum(abs(x)**2)

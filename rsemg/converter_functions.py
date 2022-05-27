@@ -21,7 +21,14 @@ from TMSiSDK.file_readers import Poly5Reader
 
 def poly5unpad(to_be_read):
     """
-    This function converts a Poly5 read into an array without padding
+    This function converts a Poly5 read into an array without padding.
+    Note there is a quirk in the python Poly5 interface that pads with zeros on the end.
+
+    :param to_be_read: filename of python read Poly5
+    :type to_be_read: :class:  str
+
+    :return df: dataframe with hashes for what is in folder
+    :rtype: :class: `~numpy.ndarray`
     """
     read_object=  Poly5Reader(to_be_read)
     sample_number= read_object.num_samples
