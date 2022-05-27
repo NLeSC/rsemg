@@ -82,12 +82,27 @@ class TestFilteringMethods(unittest.TestCase):
 class TestCuttingingMethods(unittest.TestCase):
 
     def test_emg_bad_end_cutter(self):
+        sample_ready= Poly5Reader(sample_emg)
+        sample_emg_cut = bad_end_cutter(sample_ready, 1, 10)
+        self.assertNotEqual(
+            (len(sample_emg_cut[0])),
+            len(sample_ready.samples[0]),
+        )
+    def test_emg_bad_end_cutter_for_samples(self):
         sample_read= Poly5Reader(sample_emg)
-        sample_emg_cut = bad_end_cutter(sample_read, 1, 10)
+        sample_emg_cut = bad_end_cutter_for_samples(sample_read.samples, 1, 10)
         self.assertNotEqual(
             (len(sample_emg_cut[0])),
             len(sample_read.samples[0]) ,
         )
+    def test_emg_bad_end_cutter_better(self):
+        sample_read= Poly5Reader(sample_emg)
+        sample_emg_cut = bad_end_cutter_better(sample_read, 1, 10)
+        self.assertNotEqual(
+            (len(sample_emg_cut[0])),
+            len(sample_read.samples[0]) ,
+        )
+    
 
 
 if __name__ == '__main__':
