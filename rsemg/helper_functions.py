@@ -42,7 +42,7 @@ def emg_bandpass_butter_sample(data_emg_samp, low_pass, high_pass, sample_rate, 
     :type high_pass: :class:  int
     :param sample_rate: the number of samples per second i.e. Hertz
     :type sample_rate: :class:  int
-    :output: the type of sampling stabilizor
+    :param output: the type of sampling stabilizor
     :type high_pass: :class:  str
 
     :return emg_filtered: the bandpass filtered emg sample data
@@ -241,6 +241,7 @@ def show_my_power_spectrum(sample, sample_rate, upper_window):
     This function plots a power spectrum
     of the frequencies comtained in an emg based on
     a forier transform. It does not return.
+    Sample should be one single row. (1 dimensional array)
     """
     N = len(sample)
     # for our emgs samplerate is usually 2048
@@ -256,6 +257,16 @@ def emg_highpass_butter(data_emg, cut_above, sample_rate):
     """
     The paramemter taken in here is the Poly5 file's samples or another array.
      Output is the emg after a bandpass as made here.
+
+    :param data_emg: samples from the emg
+    :type data_emg:`~numpy.ndarray`
+    :param cut_above: the number to cut off frequenceisbelow
+    :type cut_above: :class:  int
+    :param sample_rate: the number of samples per second i.e. Hertz
+    :type sample_rate: :class:  int
+    
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, cut_above, 'highpass', fs=sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?
@@ -267,21 +278,47 @@ def naive_rolling_rms(x, N):
     This function computes a root mean squared envelope over an array x.
     To do this it uses number of sample values N .
 
-    PLaceholder
+    :param x: samples from the emg
+    :type x:`~numpy.ndarray`
+    :param N: legnth of the sample use as window for function
+    :type N: :class:  int
+    
+    :return emg_rms: the root-mean-squared emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     xc = np.cumsum(abs(x)**2)
-    return np.sqrt((xc[N:] - xc[:-N])/N )
+    emg_rms = np.sqrt((xc[N:] - xc[:-N])/N )
+    return emg_rms
 
 def vect_naive_rolling_rms(x, N):
     """
-    PLaceholder
+    This function computes a root mean squared envelope over an array x.
+    To do this it uses number of sample values N . It differs from naive_rolling_rms
+    by the way the signal is put in.
+
+    :param xc: samples from the emg
+    :type xc:`~numpy.ndarray`
+    :param N: legnth of the sample use as window for function
+    :type N: :class:  int
+    
+    :return emg_rms: the root-mean-squared emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     xc = np.cumsum(np.abs(x)**2)
-    return np.sqrt((xc[N:] - xc[:-N])/N )
+    emg_rms = np.sqrt((xc[N:] - xc[:-N])/N )
+    return emg_rms
 
 def zero_one_for_jumps_base(array, cut_off):
     """
-    PLaceholder
+    This function takes an array and makes it binary (0,1) based on a cut-off value.
+
+    :param array: an array
+    :type array:`~numpy.ndarray`
+    :param cut_off: the number defining a cut-off line for binarization
+    :type cut_off: :class:  float
+
+    :return array_list: binarized array
+    :rtype: :class: `~numpy.ndarray`
     """
     array_list = []
     for i in array:
