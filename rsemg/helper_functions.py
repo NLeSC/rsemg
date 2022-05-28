@@ -419,7 +419,7 @@ def entropical(listy):
     Output:
         an array of entropy measurements
     """
-    probabilities = [n_x/len(s) for x,n_x in collections.Counter(listy).items()]
+    probabilities = [n_x/len(listy) for x,n_x in collections.Counter(listy).items()]
     e_x = [-p_x*math.log(p_x,2) for p_x in probabilities]
     return sum(e_x)
 
