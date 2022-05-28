@@ -187,8 +187,39 @@ def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
     In the EU in some data electrical cords can interfere at around 50 herts.
     In some other locations the interference is at 60 Hertz. The specificities 
     of a local power grid may neccesitate notch filtering. 
-
     
+    :param sample: percentage variation tolerance to allow without cutting automatically
+    :type sample: :class:  int
+    :param sample_frequ: the frequency at which the sample was captured, often 2048
+    :type sample_frequ: :class:  int
+    :param freq_to_pull: the frequency you desire to remove from teh signal
+    :type freq_to_pull: :class:  int
+    :param quality_factor_q: how high the quality of the removal is
+    :type quality_factor_q: :class:  int
+
+    :return sample_cut: the filterered sample data
+    :rtype: :class: `~numpy.ndarray`
+
+    """
+    # create notch filter
+    # design a notch filter using signal.iirnotch
+    b_notch, a_notch = signal.iirnotch(freq_to_pull, quality_factor_q, sample_frequ)
+    
+    # make the output signal
+    output_signal = signal.filtfilt(b_notch, a_notch, sample)
+    return output_signal
+
+
+def cnotch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
+    """
+    This is a filter designed to take out a specific frequency. 
+    In the EU in some data electrical cords can interfere at around 50 herts.
+    In some other locations the interference is at 60 Hertz. The specificities 
+    of a local power grid may neccesitate notch filtering. It computes some
+    additional info on the results, and we may change it to return all the 
+    information. Pending. 
+
+
     """
     # create notch filter
     samp_freq = sample_frequ # Sample frequency (Hz)

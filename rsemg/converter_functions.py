@@ -2,7 +2,7 @@
 # and convert them down to an array.
 # Additionally this file contains hash functions to track data
 
-# IMPORT Ole's fixed TMSiSDK python interfacwe- may change
+
 import sys
 import glob
 import os
@@ -15,7 +15,7 @@ import hashlib
 import h5py
 import re
 
-
+# IMPORT Ole's fixed TMSiSDK python interfacwe- may change
 sys.path.insert(0,'C:/Projects/tmsi-python-interface')
 from TMSiSDK.file_readers import Poly5Reader
 
