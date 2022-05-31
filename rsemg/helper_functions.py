@@ -432,9 +432,21 @@ def compute_power_loss(original_signal, original_signal_sampling_frequency, proc
         original_signal_sampling_frequency: sampling frequency of the signal before processing
         processed_signal: signal after processing
         processed_signal_sampling_frequency: sampling frequency of the signal after processing
-
     Output:
         percentage of power loss
+    
+    :param original_signal: array.
+    :type  original_signal: :class:`~numpy.ndarray`
+    :param original_signal_sampling_frequency: sampling frequency of original signal
+    :type original_signal_sampling_frequency: :class: int
+    :param processed_signal: array.
+    :type  processed_signal: :class:`~numpy.ndarray`
+    :param processed_signal_sampling_frequency: sampling frequency of processed signal
+    :type processed_signal_sampling_frequency: :class: int
+
+
+    :return: power_loss
+    :rtype: :class:float
     """
 
     nperseg = 1024
@@ -503,6 +515,19 @@ def smooth_for_baseline(single_filtered_array, start=None, end=None, smooth=100)
 def smooth_for_baseline_with_overlay(my_own_array, threshold=10, start=None, end=None, smooth=100):
     """
     This is the same as smooth for baseline, but we also get an overlay 0/1 mask tagging the baseline
+    :param my_own_array: array.
+    :type  my_own_array: :class:`~numpy.ndarray`
+    :param threshold: number where to cut the mask for overlay
+    :type threshold: :class: int
+    :param start: the number on samples to work from
+    :type start: :class:int
+    :param end: the number on samples to work until
+    :type end: :class:int
+    :param smooth: the number of samples to work over
+    :type smooth: :class:int
+    
+    :return: array
+    :rtype: :class:`~numpy.ndarray`
     """
     array = my_own_array[start:end]
     overlay = np.zeros(len(array)).astype('int8')
