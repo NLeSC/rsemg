@@ -53,6 +53,9 @@ def blank_fig(text=None):
 
 def add_emg_graphs(emg_data):
 
+    if emg_data is None:
+        return []
+
     graphs = [html.H1(children='EMG data')]
 
     for i in range(emg_data.shape[0]):
@@ -73,7 +76,11 @@ def add_emg_graphs(emg_data):
 
 def add_ventilator_graphs(vent_data):
 
+    if vent_data is None:
+        return []
+
     graphs = [html.H1(children='Ventilator data')]
+
     for i in range(vent_data.shape[0]):
         fig=go.Figure(data=go.Scatter(y=vent_data[i], mode='lines'))
         fig.update_layout(

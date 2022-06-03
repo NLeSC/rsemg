@@ -4,6 +4,7 @@ import base64
 import plotly.express as px
 import pandas as pd
 import dash_uploader as du
+import utils
 
 
 class Pages(Enum):
@@ -202,16 +203,7 @@ def get_navbar(p=Pages.LOAD_DATA):
 
 load_data_page = html.Div([
     get_header(),
-    get_navbar(Pages.LOAD_DATA)
-])
-
-####################################################################################################
-# 002 - VIEW RAW PAGE
-####################################################################################################
-
-view_raw_page = html.Div([
-    get_header(),
-    get_navbar(Pages.VIEW_RAW),
+    get_navbar(Pages.LOAD_DATA),
 
     html.H1('Upload Data'),
     html.Div([
@@ -233,6 +225,17 @@ view_raw_page = html.Div([
     html.Div(children=[
         html.H1(id='out', children='')
     ]),
+    html.Div(id='original-emg'),
+    html.Div(id='original-ventilator')
+])
+
+####################################################################################################
+# 002 - VIEW RAW PAGE
+####################################################################################################
+
+view_raw_page = html.Div([
+    get_header(),
+    get_navbar(Pages.VIEW_RAW),
     html.Div([
         html.Div(id='emg-graphs-container',
                  className='six columns'),
@@ -242,8 +245,7 @@ view_raw_page = html.Div([
     ],
         className='row'
     ),
-    html.Div(id='original-emg'),
-    html.Div(id='original-ventilator')
+    html.Div(id='hidden-div')
 ])
 
 ####################################################################################################

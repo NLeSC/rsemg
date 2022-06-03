@@ -37,25 +37,20 @@ def parse_vent(status):
     global ventilator_data_raw
     ventilator_data_raw = vent_data
     # children = utils.add_ventilator_graphs(vent_data)
-
+    print('vent uploaded')
     return 'set'
 
-
-@callback(Output('emg-graphs-container', 'children'),
-          Input('original-emg', 'data'))
-def show_raw_data(emg_data):
-    if emg_data_raw is not None:
-        children = utils.add_emg_graphs(np.array(emg_data_raw))
-    else:
-        children = []
-    return children
-
-
 @callback(Output('ventilator-graphs-container', 'children'),
-          Input('original-ventilator', 'data'))
+          Output('emg-graphs-container', 'children'),
+          Input('hidden-div', 'data'))
 def show_raw_data(ventilator_data):
     if ventilator_data_raw is not None:
-        children = utils.add_ventilator_graphs(np.array(ventilator_data_raw))
+        children_vent = utils.add_ventilator_graphs(np.array(ventilator_data_raw))
     else:
-        children = []
-    return children
+        children_vent = []
+
+    if emg_data_raw is not None:
+        children_emg = utils.add_emg_graphs(np.array(emg_data_raw))
+    else:
+        children_emg = []
+    return children_vent, children_emg
