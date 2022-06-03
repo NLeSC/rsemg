@@ -241,7 +241,9 @@ view_raw_page = html.Div([
                  className='six columns'),
     ],
         className='row'
-    )
+    ),
+    html.Div(id='original-emg'),
+    html.Div(id='original-ventilator')
 ])
 
 ####################################################################################################

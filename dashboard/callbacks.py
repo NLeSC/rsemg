@@ -2,6 +2,7 @@ from dash import Dash, html, dcc, Input, Output, callback
 import dash_uploader as du
 from app import app
 import utils
+import numpy as np
 import base64
 import sys, os
 
@@ -10,24 +11,51 @@ from rsemg import converter_functions
 
 du.configure_upload(app, r"C:\tmp\Uploads", use_upload_id=True)
 
+emg_data_raw = None
+ventilator_data_raw = None
+
 
 @du.callback(
-    output=Output('emg-graphs-container', 'children'),
+    output=Output('original-emg', 'data'),
     id='upload-emg-data',
-)
-def parse_vent(status):
-    vent_data = converter_functions.poly5unpad(status[0])
-    children = utils.add_emg_graphs(vent_data)
-
-    return children
-
-
-@du.callback(
-    output=Output('ventilator-graphs-container', 'children'),
-    id='upload-ventilator-data',
 )
 def parse_emg(status):
     emg_data = converter_functions.poly5unpad(status[0])
-    children = utils.add_ventilator_graphs(emg_data)
+    global emg_data_raw
+    emg_data_raw = emg_data
+    # children = utils.add_emg_graphs(emg_data)
 
+    return 'set'
+
+
+@du.callback(
+    output=Output('original-ventilator', 'data'),
+    id='upload-ventilator-data',
+)
+def parse_vent(status):
+    vent_data = converter_functions.poly5unpad(status[0])
+    global ventilator_data_raw
+    ventilator_data_raw = vent_data
+    # children = utils.add_ventilator_graphs(vent_data)
+
+    return 'set'
+
+
+@callback(Output('emg-graphs-container', 'children'),
+          Input('original-emg', 'data'))
+def show_raw_data(emg_data):
+    if emg_data_raw is not None:
+        children = utils.add_emg_graphs(np.array(emg_data_raw))
+    else:
+        children = []
+    return children
+
+
+@callback(Output('ventilator-graphs-container', 'children'),
+          Input('original-ventilator', 'data'))
+def show_raw_data(ventilator_data):
+    if ventilator_data_raw is not None:
+        children = utils.add_ventilator_graphs(np.array(ventilator_data_raw))
+    else:
+        children = []
     return children

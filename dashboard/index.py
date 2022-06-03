@@ -10,7 +10,7 @@ import callbacks
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content'),
 ])
 
 

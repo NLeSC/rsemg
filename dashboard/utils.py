@@ -57,6 +57,12 @@ def add_emg_graphs(emg_data):
 
     for i in range(emg_data.shape[0]):
         fig=go.Figure(data=go.Scatter(y=emg_data[i], mode='lines'))
+        fig.update_layout(
+            title="EMG Track " + str(i),
+            xaxis_title="Sample n",
+            yaxis_title="micro Volts",
+            legend_title="Legend Title"
+        )
         graphs.append(dcc.Graph(
             id='emg'+str(i)+'-graph',
             figure=fig
@@ -68,11 +74,16 @@ def add_emg_graphs(emg_data):
 def add_ventilator_graphs(vent_data):
 
     graphs = [html.H1(children='Ventilator data')]
-    print(vent_data[0][:])
     for i in range(vent_data.shape[0]):
+        fig=go.Figure(data=go.Scatter(y=vent_data[i], mode='lines'))
+        fig.update_layout(
+            title="Ventilator Track " + str(i),
+            xaxis_title="Sample n",
+            legend_title="Legend Title"
+        )
         graphs.append(dcc.Graph(
             id='ventilator'+str(i)+'-graph',
-            figure=go.Figure(data=go.Scatter(y=vent_data[i], mode='lines'))
+            figure=fig
         ))
 
     return graphs
