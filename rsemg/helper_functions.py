@@ -9,6 +9,25 @@ from scipy.signal import find_peaks
 import collections
 import math
 from math import log, e
+from collections import namedtuple
+import builtins
+
+
+
+class Range(namedtuple('RangeBase', 'start,end')):
+    
+    def intersects(self, other):
+        return (
+            (self.end >= other.end) and (self.start < other.end) or
+            (self.end >= other.start) and (self.start < other.start) or
+            (self.end < other.end) and (self.start >= other.start)
+        )
+    
+    def precedes(self, other):
+        return self.end < other.start
+    
+    def to_slice(self):
+        return slice(*map(int, self)) # maps whole tuple set
 
 
 def emg_bandpass_butter(data_emg, low_pass, high_pass):
@@ -557,3 +576,35 @@ def smooth_for_baseline_with_overlay(my_own_array, threshold=10, start=None, end
         dists[i] = dist
         wmax, wmin = nwmax, nwmin
     return array, overlay, dists
+
+
+
+def ranges_of(array):
+    """
+    This function is made to work with Range class objects,
+    such that is selects ranges and returns tuples of boundaries....
+    """
+    marks = np.logical_xor(array[1:], array[:-1])
+    boundaries = np.hstack((np.zeros(1), np.where(marks != 0)[0], np.zeros(1) + len(array) - 1))
+    if not array[0]:
+        boundaries = boundaries[1:]
+    return tuple(Range(*boundaries[i:i+2]) for i in range(0, len(boundaries), 2))
+
+
+def intersections(left, right):
+    """
+    This function does a sort of "merge" over two arrays,
+    left and right, that does not blend them, rather...
+    """
+    i, j = 0, 0
+    result = []
+    while i < len(left) and j < len(right):
+        lelt, relt = left[i], right[j]
+        if lelt.intersects(relt):
+            result.append(lelt)
+            i += 1
+        elif relt.precedes(lelt):
+            j += 1
+        elif lelt.precedes(relt):
+            i += 1
+    return result
