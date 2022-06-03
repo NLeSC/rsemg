@@ -15,6 +15,10 @@ import builtins
 
 
 class Range(namedtuple('RangeBase', 'start,end')):
+    """
+    This class creates an object of a tuple that
+    related to a range in an array...
+    """
     
     def intersects(self, other):
         return (
