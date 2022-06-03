@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import FastICA
 from scipy.signal import find_peaks
-#from scipy.stats import entropy
 import collections
 import math
 from math import log, e
@@ -15,6 +14,16 @@ from math import log, e
 def emg_bandpass_butter(data_emg, low_pass, high_pass):
     """
     The paramemter taken in here is the Poly5 file. Output is the emg after a bandpass as made here.
+    
+    :param data_emg: Poly5 file with the samples to work over
+    :type data_emg: :class:  Poly5
+    :param low_pass: the number to cut off frequenciesabove
+    :type low_pass: :class:  int
+    :param high_pass: the number to cut off frequenceisbelow
+    :type high_pass: :class:  int
+
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, [low_pass, high_pass], 'bandpass', fs=data_emg.sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?
@@ -24,6 +33,20 @@ def emg_bandpass_butter(data_emg, low_pass, high_pass):
 def emg_bandpass_butter_sample(data_emg_samp, low_pass, high_pass, sample_rate, output='sos'):
     """
     The paramemter taken in here is the Poly5 file. Output is the emg after a bandpass as made here.
+
+    :param data_emg_samp: The array in the poly5 or other sample
+    :type data_emg_samp: :class:  array
+    :param low_pass: the number to cut off frequenciesabove
+    :type low_pass: :class:  int
+    :param high_pass: the number to cut off frequenceisbelow
+    :type high_pass: :class:  int
+    :param sample_rate: the number of samples per second i.e. Hertz
+    :type sample_rate: :class:  int
+    :param output: the type of sampling stabilizor
+    :type high_pass: :class:  str
+
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, [low_pass, high_pass], 'bandpass', fs = sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?
@@ -34,7 +57,17 @@ def bad_end_cutter(data_emg, percent_to_cut=7, tolerance_percent=10):
     """
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
-    but returns only the array not an altered Poly5.
+    but returns only the array, not an altered Poly5.
+
+    :param data_emg: a poly5
+    :type data_emg: :class:  Poly5file
+    :param percent_to_cut: percentage to look at on the end
+    :type percent_to_cut: :class:  int
+    :param tolerance_percent: percentage variation tolerance to allow without cutting automatically
+    :type tolerance_percent: :class:  int
+
+    :return sample_cut: the cut emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sample = data_emg.samples
     len_sample = len(data_emg.samples[0])
@@ -72,7 +105,17 @@ def bad_end_cutter_for_samples(data_emg, percent_to_cut=7, tolerance_percent=10)
     """
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
-    but returns only the array not an altered Poly5.
+    but returns only the array .
+
+    :param data_emg: array of samples
+    :type data_emg: :class:   `~numpy.ndarray`
+    :param percent_to_cut: percentage to look at on the end
+    :type percent_to_cut: :class:  int
+    :param tolerance_percent: percentage variation tolerance to allow without cutting automatically
+    :type tolerance_percent: :class:  int
+
+    :return sample_cut: the cut emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sample = data_emg
     len_sample = len(data_emg[0])
@@ -103,6 +146,16 @@ def bad_end_cutter_better(data_emg, percent_to_cut=7, tolerance_percent=10):
     This algorithm takes the end off of EMGs where the end is radically altered, 
     or if not radically altered cuts the last 10 values
     but returns only the array not an altered Poly5.
+
+    :param data_emg: a poly5
+    :type data_emg: :class:  Poly5file
+    :param percent_to_cut: percentage to look at on the end
+    :type percent_to_cut: :class:  int
+    :param tolerance_percent: percentage variation tolerance to allow without cutting automatically
+    :type tolerance_percent: :class:  int
+
+    :return sample_cut: the cut emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sample = data_emg.samples
     len_sample = len(data_emg.samples[0])
@@ -129,6 +182,45 @@ def bad_end_cutter_better(data_emg, percent_to_cut=7, tolerance_percent=10):
 
 
 def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
+    """
+    This is a filter designed to take out a specific frequency. 
+    In the EU in some data electrical cords can interfere at around 50 herts.
+    In some other locations the interference is at 60 Hertz. The specificities 
+    of a local power grid may neccesitate notch filtering. 
+    
+    :param sample: percentage variation tolerance to allow without cutting automatically
+    :type sample: :class:  int
+    :param sample_frequ: the frequency at which the sample was captured, often 2048
+    :type sample_frequ: :class:  int
+    :param freq_to_pull: the frequency you desire to remove from teh signal
+    :type freq_to_pull: :class:  int
+    :param quality_factor_q: how high the quality of the removal is
+    :type quality_factor_q: :class:  int
+
+    :return sample_cut: the filterered sample data
+    :rtype: :class: `~numpy.ndarray`
+
+    """
+    # create notch filter
+    # design a notch filter using signal.iirnotch
+    b_notch, a_notch = signal.iirnotch(freq_to_pull, quality_factor_q, sample_frequ)
+    
+    # make the output signal
+    output_signal = signal.filtfilt(b_notch, a_notch, sample)
+    return output_signal
+
+
+def cnotch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
+    """
+    This is a filter designed to take out a specific frequency. 
+    In the EU in some data electrical cords can interfere at around 50 herts.
+    In some other locations the interference is at 60 Hertz. The specificities 
+    of a local power grid may neccesitate notch filtering. It computes some
+    additional info on the results, and we may change it to return all the 
+    information. Pending. 
+
+
+    """
     # create notch filter
     samp_freq = sample_frequ # Sample frequency (Hz)
     notch_freq = freq_to_pull # Frequency to be removed from signal (Hz)
@@ -145,9 +237,14 @@ def notch_filter(sample, sample_frequ, freq_to_pull, quality_factor_q):
 
 
 def show_my_power_spectrum(sample, sample_rate, upper_window):
+    """
+    This function plots a power spectrum
+    of the frequencies comtained in an emg based on
+    a forier transform. It does not return.
+    Sample should be one single row. (1 dimensional array)
+    """
     N = len(sample)
-    # for our emg samplerate is 2048
-
+    # for our emgs samplerate is usually 2048
     yf = fft((sample))
     xf = fftfreq(N, 1 / sample_rate)
 
@@ -160,6 +257,16 @@ def emg_highpass_butter(data_emg, cut_above, sample_rate):
     """
     The paramemter taken in here is the Poly5 file's samples or another array.
      Output is the emg after a bandpass as made here.
+
+    :param data_emg: samples from the emg
+    :type data_emg:`~numpy.ndarray`
+    :param cut_above: the number to cut off frequenceisbelow
+    :type cut_above: :class:  int
+    :param sample_rate: the number of samples per second i.e. Hertz
+    :type sample_rate: :class:  int
+    
+    :return emg_filtered: the bandpass filtered emg sample data
+    :rtype: :class: `~numpy.ndarray`
     """
     sos = signal.butter(3, cut_above, 'highpass', fs=sample_rate, output='sos')
     # sos (output parameter)is second order section  -> "stabilizes" ?
@@ -167,14 +274,52 @@ def emg_highpass_butter(data_emg, cut_above, sample_rate):
     return emg_filtered
 
 def naive_rolling_rms(x, N):
+    """
+    This function computes a root mean squared envelope over an array x.
+    To do this it uses number of sample values N .
+
+    :param x: samples from the emg
+    :type x:`~numpy.ndarray`
+    :param N: legnth of the sample use as window for function
+    :type N: :class:  int
+    
+    :return emg_rms: the root-mean-squared emg sample data
+    :rtype: :class: `~numpy.ndarray`
+    """
     xc = np.cumsum(abs(x)**2)
-    return np.sqrt((xc[N:] - xc[:-N])/N )
+    emg_rms = np.sqrt((xc[N:] - xc[:-N])/N )
+    return emg_rms
 
 def vect_naive_rolling_rms(x, N):
+    """
+    This function computes a root mean squared envelope over an array x.
+    To do this it uses number of sample values N . It differs from naive_rolling_rms
+    by the way the signal is put in.
+
+    :param xc: samples from the emg
+    :type xc:`~numpy.ndarray`
+    :param N: legnth of the sample use as window for function
+    :type N: :class:  int
+    
+    :return emg_rms: the root-mean-squared emg sample data
+    :rtype: :class: `~numpy.ndarray`
+    """
     xc = np.cumsum(np.abs(x)**2)
-    return np.sqrt((xc[N:] - xc[:-N])/N )
+    emg_rms = np.sqrt((xc[N:] - xc[:-N])/N )
+    return emg_rms
 
 def zero_one_for_jumps_base(array, cut_off):
+    """
+    This function takes an array and makes it binary (0,1) based on a cut-off value.
+
+    :param array: an array
+    :type array:`~numpy.ndarray`
+    :param cut_off: the number defining a cut-off line for binarization
+    :type cut_off: :class:  float
+
+    :return array_list: binarized array
+    :rtype: :class: `~numpy.ndarray`
+    """
     array_list = []
     for i in array:
         if i < cut_off:
@@ -274,7 +419,7 @@ def entropical(listy):
     Output:
         an array of entropy measurements
     """
-    probabilities = [n_x/len(s) for x,n_x in collections.Counter(listy).items()]
+    probabilities = [n_x/len(listy) for x,n_x in collections.Counter(listy).items()]
     e_x = [-p_x*math.log(p_x,2) for p_x in probabilities]
     return sum(e_x)
 
@@ -287,9 +432,21 @@ def compute_power_loss(original_signal, original_signal_sampling_frequency, proc
         original_signal_sampling_frequency: sampling frequency of the signal before processing
         processed_signal: signal after processing
         processed_signal_sampling_frequency: sampling frequency of the signal after processing
-
     Output:
         percentage of power loss
+    
+    :param original_signal: array.
+    :type  original_signal: :class:`~numpy.ndarray`
+    :param original_signal_sampling_frequency: sampling frequency of original signal
+    :type original_signal_sampling_frequency: :class: int
+    :param processed_signal: array.
+    :type  processed_signal: :class:`~numpy.ndarray`
+    :param processed_signal_sampling_frequency: sampling frequency of processed signal
+    :type processed_signal_sampling_frequency: :class: int
+
+
+    :return: power_loss
+    :rtype: :class:float
     """
 
     nperseg = 1024
@@ -305,13 +462,36 @@ def compute_power_loss(original_signal, original_signal_sampling_frequency, proc
     return power_loss
 
 def count_decision_array(decision_array):
+    """
+    This is a function that practically speakingcounts events on a time series array that
+    has been reduced down to a binary (0,1) output. It counts changes then divides by two
+    input
+
+    :param decision_array: array.
+    :type decisions_array: :class:`~numpy.ndarray`
+
+    :return: number of events
+    :rtype: :class:float
+    """
     ups_and_downs = np.logical_xor(decision_array[1:], decision_array[:-1])
     count = ups_and_downs.sum()/2
     return count
 
 def smooth_for_baseline(single_filtered_array, start=None, end=None, smooth=100):
     """
-    This is an adaptive smoothing that overvalues closer numbers.
+    This is an adaptive smoothing a series that overvalues closer numbers.
+
+    :param single_filtered_array: array.
+    :type single_filtered_array: :class:`~numpy.ndarray`
+    :param start: the number on samples to work from
+    :type start: :class:int
+    :param end: the number on samples to work until
+    :type end: :class:int
+    :param smooth: the number of samples to work over
+    :type smooth: :class:int
+    
+    :return: array
+    :rtype: :class:`~numpy.ndarray`
     """
     
     array = single_filtered_array[start:end]
@@ -335,6 +515,19 @@ def smooth_for_baseline(single_filtered_array, start=None, end=None, smooth=100)
 def smooth_for_baseline_with_overlay(my_own_array, threshold=10, start=None, end=None, smooth=100):
     """
     This is the same as smooth for baseline, but we also get an overlay 0/1 mask tagging the baseline
+    :param my_own_array: array.
+    :type  my_own_array: :class:`~numpy.ndarray`
+    :param threshold: number where to cut the mask for overlay
+    :type threshold: :class: int
+    :param start: the number on samples to work from
+    :type start: :class:int
+    :param end: the number on samples to work until
+    :type end: :class:int
+    :param smooth: the number of samples to work over
+    :type smooth: :class:int
+    
+    :return: array
+    :rtype: :class:`~numpy.ndarray`
     """
     array = my_own_array[start:end]
     overlay = np.zeros(len(array)).astype('int8')

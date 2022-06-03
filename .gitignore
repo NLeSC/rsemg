@@ -69,8 +69,10 @@ venv.bak/
 .spyderproject
 .spyproject
 
-# mkdocs documentation
-/site
 
+/site
+/researcher_interface/output
+/researcher_interface/output_emg_processed
 /not_pushed/
 /notebooks/my_saved_experiments.csv
+/built_documentation/

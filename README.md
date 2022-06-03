@@ -36,3 +36,13 @@ How to get the notebooks running? Assuming the raw data set and metadata is avai
 1b. Linux users can create their own environment by hand
 
 2. Open a notebook in researcher_interface and interactively run the cells.
+
+## Generating documentation
+Up to date documentation can be generated in command-line as follows (in bash terminal):
+
+``` sh
+sphinx-apidoc -o ./docs  -f --separate ./rsemg 
+rm -rf ./build_documentation
+mkdir ./build_documentation
+sphinx-build -b html ./docs ./built_documentation
+```
