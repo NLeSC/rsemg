@@ -4,7 +4,7 @@
 # IMPORT Ole's fixed TMSiSDK python interfacwe- may change
 import sys
 
-sys.path.insert(0,'C:/Projects/tmsi-python-interface')
+sys.path.insert(0,'../TMSiSDK')
 from TMSiSDK.file_readers import Poly5Reader
 
 def poly5unpad(to_be_read):

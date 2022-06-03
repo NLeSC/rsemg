@@ -3,6 +3,7 @@ from enum import Enum
 import base64
 import plotly.express as px
 import pandas as pd
+import dash_uploader as du
 
 
 class Pages(Enum):
@@ -40,7 +41,7 @@ navbardefault = {
     'textDecoration': 'none'
 }
 
-#static images
+# static images
 image_filename = 'resources/rsemgU.png'
 # pylint: disable=consider-using-with
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
@@ -52,6 +53,7 @@ df = pd.DataFrame({
 })
 
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+
 
 #####################
 # Header
@@ -79,15 +81,15 @@ def get_header():
 
         html.Div([
             html.Img(
-                    src = f'data:image/png;base64,{encoded_image.decode()}',
-                    height = '70 px',
-                    width = 'auto')
-            ],
-            className = 'col-2',
-            style = {
-                    'align-items': 'center',
-                    'padding-top' : '1%',
-                    'height' : 'auto'})
+                src=f'data:image/png;base64,{encoded_image.decode()}',
+                height='70 px',
+                width='auto')
+        ],
+            className='col-2',
+            style={
+                'align-items': 'center',
+                'padding-top': '1%',
+                'height': 'auto'})
 
     ],
         className='row',
@@ -211,14 +213,35 @@ view_raw_page = html.Div([
     get_header(),
     get_navbar(Pages.VIEW_RAW),
 
+    html.H1('Upload Data'),
+    html.Div([
+        du.Upload(
+            id='upload-emg-data',
+            text='Drag and Drop Here to upload EMG data!',
+            text_completed='Uploaded: ',
+            filetypes=['Poly5'],
+        ),
+    ]),
+    html.Div([
+        du.Upload(
+            id='upload-ventilator-data',
+            text='Drag and Drop Here to upload Ventilator data!',
+            text_completed='Uploaded: ',
+            filetypes=['Poly5'],
+        ),
+    ]),
     html.Div(children=[
-        html.H1(children='Raw data visualizer'),
+        html.H1(id='out', children='')
+    ]),
+    html.Div([
+        html.Div(id='emg-graphs-container',
+                 className='six columns'),
 
-        dcc.Graph(
-            id='emg0-graph',
-            figure=fig
-        )
-    ])
+        html.Div(id='ventilator-graphs-container',
+                 className='six columns'),
+    ],
+        className='row'
+    )
 ])
 
 ####################################################################################################
