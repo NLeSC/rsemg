@@ -5,7 +5,9 @@
 </p>
 
 
-This library contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The library was begun as the work of a research group at University of Twente headed by Dr. Eline Mos-Oppersma, PhD (UT-TNW). The work of the research group includes interfaces for clinicians as well as other researchers.
+This library has moved! This is essentially a legacy library that contains functions, scripts and notebooks for machine learning related to EMGs (electromyograms). The library was begun as the work of a research group at University of Twente headed by Dr. Eline Mos-Oppersma, PhD (UT-TNW). The work of the research group includes interfaces for clinicians as well as other researchers which are now housed in [ReSurfEMG](https://github.com/ReSurfEMG/ReSurfEMG).
+
+The code here is legacy, however we maintain this site for an upcoming meeting where researchers will build collaborative documents on analysis of respiratory surface electromyography in the hope of creating more standards in the field. 
 
 ### Folders and Notebooks
 
